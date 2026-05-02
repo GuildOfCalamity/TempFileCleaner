@@ -1,0 +1,39 @@
+﻿<Application
+    x:Class="TempFileCleaner.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TempFileCleaner"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <LinearGradientBrush x:Key="ProgressBrushLinear" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Offset="0.0" Color="#F5F5F5" />
+                    <GradientStop Offset="0.5" Color="DodgerBlue" />
+                    <GradientStop Offset="1.0" Color="Navy" />
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <RadialGradientBrush x:Key="SnowBrushRadial" GradientOrigin="0.75,0.25">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Offset="0.0" Color="White" />
+                <GradientStop Offset="0.6" Color="#C0C0C0" />
+                <GradientStop Offset="1.0" Color="#222222" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="WindBrushRadial" GradientOrigin="0.75,0.25" Opacity="0.7">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Offset="0.0" Color="#FFFFFF" />
+                <GradientStop Offset="0.6" Color="#1E90FF" />
+                <GradientStop Offset="1.0" Color="#222222" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="SplashBrushRadial" GradientOrigin="0.75,0.25" Opacity="0.5">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Offset="0.0" Color="White" />
+                <GradientStop Offset="0.5" Color="SkyBlue" />
+                <GradientStop Offset="1.0" Color="DodgerBlue" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
+    </Application.Resources>
+</Application>
