@@ -104,6 +104,7 @@ namespace TempFileCleaner
 
         void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            this.Title = $"{App.GetCurrentAssemblyName()} v{App.GetCurrentAssemblyVersion()}";
             spProgress.Visibility = Visibility.Collapsed;
             btnCancel.Visibility = Visibility.Hidden;
             cbReport.IsChecked = _cfgReportOnly = ConfigManager.Get("ReportOnly", defaultValue: true);
