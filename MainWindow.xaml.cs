@@ -81,7 +81,7 @@ namespace TempFileCleaner
             
             MethodTimer.LogHandler = (msg) => 
             { 
-                Debug.WriteLine(msg);
+                Debug.WriteLine($"[TIMER] {msg}");
                 ConfigManager.Set("ExecutionTime", msg);
             };
             #endregion
@@ -258,7 +258,7 @@ namespace TempFileCleaner
                         var dskscn = WpfMessageBox.Show($"Would you like to run the local system's file checker?{Environment.NewLine}{Environment.NewLine}Time remaining on your current token: {_cts.TimeRemaining.ToReadableTime()}", true, false, owner: this);
                         if (dskscn.HasValue && dskscn.Value)
                         {
-                            var result = await MethodTimerEx.TimeAsync(async () => await RunSystemFileChecker(_cts.Token, progressSfc));
+                            var result = await MethodTimerAsync.TimeAsync(async () => await RunSystemFileChecker(_cts.Token, progressSfc));
                             WpfMessageBox.Show($"SFC process finished.{Environment.NewLine}SFC attempt took {result.ToReadableTime()}.", false, false, owner: this);
                         }
                     }

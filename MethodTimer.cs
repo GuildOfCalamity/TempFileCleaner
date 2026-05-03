@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 
@@ -102,4 +99,68 @@ namespace TempFileCleaner
             LogHandler?.Invoke($"{methodName} took {elapsed.TotalMilliseconds:N2}ms");
         }
     }
+
+    /// <summary><code>
+    ///  // 1. Synchronous timing
+    ///  var elapsedSync = MethodTimer.Time(() => Thread.Sleep(100));
+    ///  Debug.WriteLine($"Sync operation took: {elapsedSync.TotalMilliseconds}ms");
+    ///  
+    ///  // 2. Asynchronous timing
+    ///  var elapsedAsync = await MethodTimer.TimeAsync(async () => await Task.Delay(100));
+    ///  Debug.WriteLine($"Async operation took: {elapsedAsync.TotalMilliseconds}ms");
+    ///
+    ///  // 3. Timing with a return value
+    ///  var(data, time) = await MethodTimer.TimeAsync(async () => {
+    ///        await Task.Delay(50);
+    ///        return "Operation Complete";
+    ///  });
+    ///  Debug.WriteLine($"Result: {data} (Took: {time.TotalMilliseconds}ms)");
+    /// </code></summary>
+    public static class MethodTimerAsync
+    {
+        /// <summary>
+        /// Times a synchronous action.
+        /// </summary>
+        public static TimeSpan Time(Action action)
+        {
+            var sw = Stopwatch.StartNew();
+            action();
+            sw.Stop();
+            return sw.Elapsed;
+        }
+
+        /// <summary>
+        /// Times a synchronous function that returns a value.
+        /// </summary>
+        public static (T Result, TimeSpan Elapsed) Time<T>(Func<T> func)
+        {
+            var sw = Stopwatch.StartNew();
+            var result = func();
+            sw.Stop();
+            return (result, sw.Elapsed);
+        }
+
+        /// <summary>
+        /// Times an asynchronous task.
+        /// </summary>
+        public static async Task<TimeSpan> TimeAsync(Func<Task> taskFunc)
+        {
+            var sw = Stopwatch.StartNew();
+            await taskFunc();
+            sw.Stop();
+            return sw.Elapsed;
+        }
+
+        /// <summary>
+        /// Times an asynchronous task that returns a value.
+        /// </summary>
+        public static async Task<(T Result, TimeSpan Elapsed)> TimeAsync<T>(Func<Task<T>> taskFunc)
+        {
+            var sw = Stopwatch.StartNew();
+            var result = await taskFunc();
+            sw.Stop();
+            return (result, sw.Elapsed);
+        }
+    }
+
 }
