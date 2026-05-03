@@ -1,3 +1,5 @@
+![Logo](./Logo2.ico)
+
 ## 💻 WPF - Temp File Cleaner
 
 ![Example Picture](./Screenshot.png)
