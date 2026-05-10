@@ -353,6 +353,7 @@ namespace TempFileCleaner
 
                     try
                     {
+                        Logger.WriteInfo($"Scanning folder \"{folder}\"");
                         foreach (string filePath in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
                         {
                             if (ct.IsCancellationRequested)
@@ -409,6 +410,7 @@ namespace TempFileCleaner
                     }
                     catch (Exception ex)
                     {
+                        Logger.WriteWarn($"Error processing folder \"{folder}\": {ex.Message}");
                         CleanupError?.Invoke(this, ex);
                     }
                     await Task.Delay(10);
@@ -495,6 +497,7 @@ namespace TempFileCleaner
                     }
                     catch (Exception ex)
                     {
+                        Logger.WriteWarn($"Error processing folder \"{folder}\": {ex.Message}");
                         CleanupError?.Invoke(this, ex);
                     }
                 }
