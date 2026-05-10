@@ -321,20 +321,28 @@ namespace TempFileCleaner
                 var failedFiles = new List<FileResult>();
                 DateTime cutoffDate = DateTime.Now.AddMonths(months);
                 string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                var browserCache1 = Path.GetTempPath().Replace(@"\Temp", @"\Google\Chrome\User Data\Default\Cache");
+                var browserCache2 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\Cache");
+                var browserCache3 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\Code Cache");
+                var browserCache4 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\GPUCache");
+                var crashDumps = Path.GetTempPath().Replace(@"\Temp", @"\CrashDumps");
                 string[] tempFolders =
                 {
+                    @"C:\Windows\Temp",
+                    @"C:\Windows\SoftwareDistribution\Download",
                     Path.GetTempPath(),
                     Path.Combine(userProfile, "Downloads"),
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     Environment.GetEnvironmentVariable("TMP"),
                     Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.User),
                     Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.Machine),
-                    @"C:\Windows\Temp"
+                    appData, browserCache1, browserCache2, browserCache3, browserCache4, crashDumps
                 };
 
                 // List of folder fragments to ignore
                 var excludeFolders = new List<string>
                 {
+                    "\\Prefetch\\",
                     "\\Program Files\\",
                     "\\Program Files (x86)\\",
                     "\\AppData\\Roaming\\",
