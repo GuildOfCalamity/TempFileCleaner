@@ -129,6 +129,8 @@ namespace TempFileCleaner
                     $"Items marked with an orange dot will NOT be removed,{Environment.NewLine}items marked with a green dot WILL be removed."
                     , false, false, fontSize: 13.0,  owner: this);
             }
+
+            //Test.Run(dryRun: true);
         }
 
         void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -326,11 +328,13 @@ namespace TempFileCleaner
                 var browserCache2 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\Cache");
                 var browserCache3 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\Code Cache");
                 var browserCache4 = Path.GetTempPath().Replace(@"\Temp", @"\Microsoft\Edge\User Data\Default\GPUCache");
+                // Firefox does a good job of cleaning itself, so we'll ignore it.
                 var crashDumps = Path.GetTempPath().Replace(@"\Temp", @"\CrashDumps");
                 string[] tempFolders =
                 {
                     @"C:\Windows\Temp",
                     @"C:\Windows\SoftwareDistribution\Download",
+                    //@"C:\Windows\System32\LogFiles",
                     Path.GetTempPath(),
                     Path.Combine(userProfile, "Downloads"),
                     Environment.GetEnvironmentVariable("TMP"),

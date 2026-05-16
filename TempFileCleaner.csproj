@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,6 +64,7 @@
     <Compile Include="CancellationTokenSourceEnhanced.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FirefoxCleaner.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MethodTimer.cs" />
     <Compile Include="Spinner.xaml.cs">
