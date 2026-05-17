@@ -58,9 +58,8 @@ namespace TempFileCleaner
                 }
 
 
-                string path = String.Format(@"{0}\{2}\{5}\{3}-{4}\", 
+                string path = String.Format(@"{0}\{1}\{4}\{2}-{3}\", 
                     LogDrive, 
-                    "", 
                     application,
                     DateTime.Now.Month.ToString("00"), 
                     DateTime.Now.Date.ToString("MMMM"), 
@@ -125,9 +124,8 @@ namespace TempFileCleaner
                 }
 
 
-                string path = String.Format(@"{0}\{2}\{5}\{3}-{4}\",
+                string path = String.Format(@"{0}\{1}\{4}\{2}-{3}\",
                     LogDrive,
-                    "",
                     application,
                     DateTime.Now.Month.ToString("00"),
                     DateTime.Now.Date.ToString("MMMM"),
