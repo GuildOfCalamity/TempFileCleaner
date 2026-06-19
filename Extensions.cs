@@ -1036,5 +1036,35 @@ namespace TempFileCleaner
             if (size < Math.Pow(1024, 6)) { return (size / Math.Pow(1024, 5)).ToString("F0") + " PB"; }
             return (size / Math.Pow(1024, 6)).ToString("F0") + " EB";
         }
+
+        public static int NextHighestMultipleOf64(int n)
+        {
+            return ((n + 63) >> 6) << 6;
+            // or return (n + 63) & ~63;
+        }
+
+        public static int NextHighestMultipleOf32(int n)
+        {
+            return ((n + 31) >> 5) << 5;
+            // or return (n + 31) & ~31;
+        }
+
+        public static int NextHighestMultipleOf16(int n)
+        {
+            return ((n + 15) >> 4) << 4;
+            // or return (n + 15) & ~15;
+        }
+
+        public static int NextHighestMultipleOf8(int n)
+        {
+            return ((n + 7) >> 3) << 3;
+            // or return (n + 7) & ~7;
+        }
+
+        public static int NextHighestMultipleOf4(int n)
+        {
+            return ((n + 3) >> 2) << 2;
+            // or return (n + 3) & ~3;
+        }
     }
 }

@@ -130,7 +130,15 @@ namespace TempFileCleaner
                     , false, false, fontSize: 13.0,  owner: this);
             }
 
-            //Test.Run(dryRun: true);
+            if (Debugger.IsAttached)
+            {
+                StartupAnalyzer.RunTest();
+                //Test.Run(dryRun: true);
+                //var next8a =Extensions.NextHighestMultipleOf8(8);
+                //var next8b =Extensions.NextHighestMultipleOf8(9);
+                //var next16a =Extensions.NextHighestMultipleOf16(16);
+                //var next16b =Extensions.NextHighestMultipleOf16(17);
+            }
         }
 
         void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
