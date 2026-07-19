@@ -22,7 +22,8 @@ namespace TempFileCleaner.Converters
                     $"Attributes: {info.Attributes}";
             }
 
-            return "File not found";
+            return "File not found.\n" +
+                   "If running cleanup, file may have been deleted.";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
