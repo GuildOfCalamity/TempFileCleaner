@@ -471,7 +471,11 @@
                         <TextBlock
                             VerticalAlignment="Center"
                             Foreground="{Binding StatusText}"
-                            Text="{Binding FilePath}" />
+                            Text="{Binding FilePath}">
+                            <TextBlock.ToolTip>
+                                <ToolTip Content="{Binding FilePath, Converter={StaticResource FileInfoTooltipConverter}}" />
+                            </TextBlock.ToolTip>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

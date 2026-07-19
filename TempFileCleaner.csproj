@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="CancellationTokenSourceEnhanced.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="Converters\FileInfoTooltipConverter.cs" />
     <Compile Include="DarkTitleBar.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FirefoxCleaner.cs" />
