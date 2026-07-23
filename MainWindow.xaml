@@ -340,7 +340,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="12*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
@@ -444,7 +444,7 @@
         <ListBox
             x:Name="lstFiles"
             Grid.Row="2"
-            Grid.RowSpan="3"
+            Grid.RowSpan="2"
             Background="Transparent"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectionChanged="OnSelectionChanged">
@@ -480,5 +480,41 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Border
+            Grid.Row="4"
+            Margin="5,0,5,5"
+            VerticalAlignment="Bottom"
+            Background="#242424"
+            BorderBrush="DodgerBlue"
+            BorderThickness="1"
+            CornerRadius="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Name="tbFileCleaned"
+                    Margin="8,4"
+                    FontSize="14"
+                    Foreground="White"
+                    Text="Files Cleaned: 0" />
+                <TextBlock
+                    x:Name="tbFileExcluded"
+                    Grid.Column="1"
+                    Margin="8,4"
+                    FontSize="14"
+                    Foreground="White"
+                    Text="Files Excluded: 0" />
+                <TextBlock
+                    x:Name="tbFileFailed"
+                    Grid.Column="2"
+                    Margin="8,4"
+                    FontSize="14"
+                    Foreground="White"
+                    Text="Files Failed: 0" />
+            </Grid>
+        </Border>
     </Grid>
 </Window>

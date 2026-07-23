@@ -198,6 +198,10 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
+                tbFileCleaned.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    tbFileCleaned.Text = $"Files Cleaned: {_totalSuccess}";
+                }));
             });
             // Couldn't Remove
             var progressFailed = new Progress<FileResult>(fr =>
@@ -208,6 +212,10 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
+                tbFileFailed.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    tbFileFailed.Text = $"Files Failed: {_totalFail}";
+                }));
             });
             // Excluded Files
             var progressExclude = new Progress<FileResult>(fr =>
@@ -218,6 +226,10 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
+                tbFileExcluded.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    tbFileExcluded.Text = $"Files Excluded: {_totalExclude}";
+                }));
             });
             // Delegate for SFC command
             var progressSfc = new Progress<FileResult>(fr =>
