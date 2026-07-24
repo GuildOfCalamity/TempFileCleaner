@@ -178,7 +178,16 @@ namespace TempFileCleaner
         async void btnCleanupClick(object sender, RoutedEventArgs e)
         {
             double totalCount = 0;
+
+            // Reset counters
             _totalBytes = 0;
+            _totalFail = 0;
+            _totalSuccess = 0;
+            _totalExclude = 0;
+            tbFileCleaned.Dispatcher.Invoke(new Action(() => { tbFileCleaned.Text = $"Files Cleaned: {_totalSuccess}"; }));
+            tbFileFailed.Dispatcher.Invoke(new Action(() => { tbFileFailed.Text = $"Files Failed: {_totalFail}"; }));
+            tbFileExcluded.Dispatcher.Invoke(new Action(() => { tbFileExcluded.Text = $"Files Excluded: {_totalExclude}"; }));
+
             _cts = new CancellationTokenSourceEnhanced(TimeSpan.FromMinutes(5)); // reset our token
             lstFiles.Items.Clear();
             btnStart.Visibility = Visibility.Hidden;
