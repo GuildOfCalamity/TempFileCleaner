@@ -138,6 +138,7 @@ namespace TempFileCleaner
                 //var next8b =Extensions.NextHighestMultipleOf8(9);
                 //var next16a =Extensions.NextHighestMultipleOf16(16);
                 //var next16b =Extensions.NextHighestMultipleOf16(17);
+                //scFilesCleaned.Value = "5000"; // testing DoubleAnimation on StatCard
             }
         }
 

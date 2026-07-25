@@ -51,13 +51,13 @@ namespace TempFileCleaner
         {
             var results = new List<StartupEntry>();
 
-            #region [Registry: HKCU + HKLM (both 32/64 views)]
+            #region [Registry: HKCU & HKLM (both 32/64 views)]
             CollectRunKeyEntries(RegistryHive.CurrentUser, RegistryView.Default, results);
             CollectRunKeyEntries(RegistryHive.LocalMachine, RegistryView.Registry64, results);
             CollectRunKeyEntries(RegistryHive.LocalMachine, RegistryView.Registry32, results);
             #endregion
 
-            #region [Startup folders: user + common]
+            #region [Startup folders: user & common]
             var userStartup = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
             CollectStartupFolder(userStartup, "User", RegistryHive.CurrentUser, results);
             var commonStartup = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup);
@@ -610,7 +610,7 @@ namespace TempFileCleaner
 
 
         /// <summary>
-        /// Example usage
+        /// Example usage of the StartupAnalyzer to print all startup entries to the debug console.
         /// </summary>
         public static void RunTest()
         {

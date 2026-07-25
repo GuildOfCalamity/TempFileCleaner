@@ -32,6 +32,7 @@
                 Foreground="{Binding TitleColor, ElementName=root}"
                 Text="{Binding Title, ElementName=root}" />
             <TextBlock
+                x:Name="ValueTextBlock"
                 FontSize="24"
                 FontWeight="Bold"
                 Foreground="{Binding ValueColor, ElementName=root}"
