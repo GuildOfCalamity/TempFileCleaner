@@ -12,16 +12,16 @@
     mc:Ignorable="d">
     <Border
         Margin="8"
-        Padding="8,4"
-        Background="#181818"
-        BorderBrush="#2A7FFF"
+        Padding="10,4"
+        Background="{Binding BackgroundColor, ElementName=root}"
+        BorderBrush="{Binding BorderColor, ElementName=root}"
         BorderThickness="2"
         CornerRadius="6">
         <Border.Effect>
             <DropShadowEffect
                 BlurRadius="6"
                 Opacity="0.7"
-                ShadowDepth="3"
+                ShadowDepth="5"
                 Color="#000000" />
         </Border.Effect>
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -29,12 +29,12 @@
                 Margin="0,0,0,4"
                 FontSize="14"
                 FontWeight="SemiBold"
-                Foreground="#2A7FFF"
+                Foreground="{Binding TitleColor, ElementName=root}"
                 Text="{Binding Title, ElementName=root}" />
             <TextBlock
                 FontSize="24"
                 FontWeight="Bold"
-                Foreground="White"
+                Foreground="{Binding ValueColor, ElementName=root}"
                 Text="{Binding Value, ElementName=root}" />
         </StackPanel>
 
