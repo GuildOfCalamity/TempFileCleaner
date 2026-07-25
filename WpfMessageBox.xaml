@@ -54,12 +54,12 @@
         Margin="6"
         Background="#151515"
         BorderBrush="DodgerBlue"
-        BorderThickness="1"
+        BorderThickness="2"
         CornerRadius="8">
         <Border.Effect>
             <DropShadowEffect
-                BlurRadius="10"
-                Opacity="0.4"
+                BlurRadius="8"
+                Opacity="0.7"
                 ShadowDepth="4"
                 Color="#000000" />
         </Border.Effect>

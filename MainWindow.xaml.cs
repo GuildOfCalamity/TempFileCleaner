@@ -119,6 +119,17 @@ namespace TempFileCleaner
 
             this.Width = _cfgWinWidth = ConfigManager.Get("WindowWidth", defaultValue: 1100.0);
             this.Height = _cfgWinHeight = ConfigManager.Get("WindowHeight", defaultValue: 750.0);
+            if (string.IsNullOrWhiteSpace(ConfigManager.Get("WindowLeft")) || 
+                string.IsNullOrWhiteSpace(ConfigManager.Get("WindowTop")))
+            {
+                this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+            else
+            {
+                this.WindowStartupLocation = WindowStartupLocation.Manual;
+                this.Top = ConfigManager.Get("WindowTop", defaultValue: 200.0);
+                this.Left = ConfigManager.Get("WindowLeft", defaultValue: 300.0);
+            }
             _cfgFirstRun = ConfigManager.Get("FirstRun", defaultValue: true);
             if (_cfgFirstRun)
             {
@@ -144,8 +155,10 @@ namespace TempFileCleaner
 
         void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ConfigManager.Set("WindowWidth", this.Width >= 300 ? this.Width : 500);
+            ConfigManager.Set("WindowWidth", this.Width >= 400 ? this.Width : 500);
             ConfigManager.Set("WindowHeight", this.Height >= 200 ? this.Height : 300);
+            ConfigManager.Set("WindowLeft", this.Left >= 0 ? this.Left : 300);
+            ConfigManager.Set("WindowTop", this.Top >= 0 ? this.Top : 200);
             ConfigManager.Set("ReportOnly", (bool)cbReport.IsChecked);
             ConfigManager.Set("FirstRun", false);
             if (!int.TryParse(tbMonths.Text, out int months)) { months = -12; }

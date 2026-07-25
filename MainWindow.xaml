@@ -12,7 +12,7 @@
     local:DarkTitleBar.ApplyDarkMode="True"
     Background="#181818"
     Icon="/Logo2.png"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation="Manual"
     mc:Ignorable="d">
 
     <Window.Resources>
