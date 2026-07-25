@@ -10,34 +10,114 @@
     d:DesignWidth="200"
     Background="Transparent"
     mc:Ignorable="d">
-    <Border
-        Margin="8"
-        Padding="10,4"
-        Background="{Binding BackgroundColor, ElementName=root}"
-        BorderBrush="{Binding BorderColor, ElementName=root}"
-        BorderThickness="2"
-        CornerRadius="6">
-        <Border.Effect>
-            <DropShadowEffect
-                BlurRadius="6"
-                Opacity="0.7"
-                ShadowDepth="5"
-                Color="#000000" />
-        </Border.Effect>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock
-                Margin="0,0,0,4"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Foreground="{Binding TitleColor, ElementName=root}"
-                Text="{Binding Title, ElementName=root}" />
-            <TextBlock
-                x:Name="ValueTextBlock"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="{Binding ValueColor, ElementName=root}"
-                Text="{Binding Value, ElementName=root}" />
-        </StackPanel>
+    <UserControl.Resources>
+        <QuadraticEase x:Key="EaseOutQuad" EasingMode="EaseOut" />
+        <SineEase x:Key="EaseOutSine" EasingMode="EaseOut" />
+    </UserControl.Resources>
+    <!--
+        NOTE: If the background color is set to Transparent, the glow effect will not be visible. Use a non-transparent background color for the glow to show up.
+        You cannot use Storyboard.TargetName inside a Style setter or trigger, because styles don’t have a namescope.
+        So to use Storyboard.TargetName, you need to define the animation inside a ControlTemplate, which has its own namescope.
+        This creates a problem if you want to animate a property of the control itself, because the control is not part of the template’s namescope.
+        Therefore we need [TemplatePart(Name = "PART_ValueTextBlock", Type = typeof(TextBlock))] as a class attribute to indicate that the
+        template must contain a TextBlock with the name "PART_ValueTextBlock" so that we can find it in code-behind and animate its properties.
+        And we need to override OnApplyTemplate() to get the reference to the TextBlock and store it in a private field for code-behind use.
+        For a simpler version of this control without the glow on hover effect, reference "StatCardSimple.xaml".
+    -->
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+            <Grid>
+                <!--  Glow layer  -->
+                <Border
+                    x:Name="GlowLayerOriginal"
+                    Margin="8"
+                    Padding="10,4"
+                    Background="{Binding BackgroundColor, RelativeSource={RelativeSource TemplatedParent}}"
+                    CornerRadius="6">
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="{Binding GlowRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                            Direction="45"
+                            Opacity="0"
+                            ShadowDepth="0"
+                            Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Border.Effect>
+                </Border>
 
-    </Border>
+                <!--  Main card  -->
+                <Border
+                    x:Name="CardBorder"
+                    Margin="8"
+                    Padding="10,4"
+                    Background="{Binding BackgroundColor, RelativeSource={RelativeSource TemplatedParent}}"
+                    BorderBrush="{Binding BorderColor, RelativeSource={RelativeSource TemplatedParent}}"
+                    BorderThickness="2"
+                    CornerRadius="6">
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding TitleColor, RelativeSource={RelativeSource TemplatedParent}}"
+                            Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <TextBlock
+                            x:Name="PART_ValueTextBlock"
+                            Margin="0,0,0,4"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Foreground="{Binding ValueColor, RelativeSource={RelativeSource TemplatedParent}}"
+                            Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </StackPanel>
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="{Binding GlowRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                            Direction="45"
+                            Opacity="0"
+                            ShadowDepth="0"
+                            Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Border.Effect>
+                </Border>
+                <Grid.Effect>
+                    <DropShadowEffect
+                        BlurRadius="5"
+                        Opacity="0.8"
+                        ShadowDepth="4"
+                        Color="#000000" />
+                </Grid.Effect>
+            </Grid>
+
+            <!--  Hover Glow Animation  -->
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    EasingFunction="{StaticResource EaseOutQuad}"
+                                    Storyboard.TargetName="CardBorder"
+                                    Storyboard.TargetProperty="(Border.Effect).Opacity"
+                                    To="0.9"
+                                    Duration="0:0:0.25" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    EasingFunction="{StaticResource EaseOutQuad}"
+                                    Storyboard.TargetName="CardBorder"
+                                    Storyboard.TargetProperty="(Border.Effect).Opacity"
+                                    To="0"
+                                    Duration="0:0:0.25" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
+            </ControlTemplate.Triggers>
+
+        </ControlTemplate>
+    </UserControl.Template>
 </UserControl>

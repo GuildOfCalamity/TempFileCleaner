@@ -483,7 +483,7 @@
         </ListBox>
         <Border
             Grid.Row="4"
-            Height="90"
+            Height="100"
             Margin="5,0,5,5"
             VerticalAlignment="Bottom">
             <Grid>
@@ -498,6 +498,8 @@
                     Grid.Column="0"
                     BackgroundColor="Transparent"
                     BorderColor="#2A7FFF"
+                    GlowColor="#10F010"
+                    GlowRadius="8.0"
                     TitleColor="#2A7FFF"
                     ValueColor="White"
                     Value="0" />
@@ -507,6 +509,8 @@
                     Grid.Column="1"
                     BackgroundColor="Transparent"
                     BorderColor="#2A7FFF"
+                    GlowColor="#FFD810"
+                    GlowRadius="8.0"
                     TitleColor="#2A7FFF"
                     ValueColor="White"
                     Value="0" />
@@ -517,9 +521,17 @@
                     Margin="0"
                     BackgroundColor="Transparent"
                     BorderColor="#2A7FFF"
+                    GlowColor="#F01010"
+                    GlowRadius="8.0"
                     TitleColor="#2A7FFF"
                     ValueColor="White"
                     Value="0" />
+                <!--  Testing StatFormat  -->
+                <!--<ctrl:StatCard
+                    Title="Temperature"
+                    CustomFormatString="0.0 °F"
+                    ValueFormat="Custom"
+                    Value="72.1" />-->
             </Grid>
         </Border>
     </Grid>

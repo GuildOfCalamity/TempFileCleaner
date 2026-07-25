@@ -16,11 +16,48 @@ using System.Windows.Shapes;
 
 namespace TempFileCleaner.Controls
 {
+    [TemplatePart(Name = "PART_ValueTextBlock", Type = typeof(TextBlock))]
     public partial class StatCard : UserControl
     {
         public StatCard()
         {
             InitializeComponent();
+        }
+
+        TextBlock _valueTextBlock;
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _valueTextBlock = GetTemplateChild("PART_ValueTextBlock") as TextBlock;
+        }
+
+        public enum StatFormat
+        {
+            Number,
+            Currency,
+            Percent,
+            Custom
+        }
+
+        public static readonly DependencyProperty CustomFormatStringProperty =
+            DependencyProperty.Register(nameof(CustomFormatString), typeof(string), typeof(StatCard),
+            new PropertyMetadata("N0"));
+
+        public string CustomFormatString
+        {
+            get => (string)GetValue(CustomFormatStringProperty);
+            set => SetValue(CustomFormatStringProperty, value);
+        }
+
+        // Format
+        public static readonly DependencyProperty ValueFormatProperty =
+            DependencyProperty.Register(nameof(ValueFormat), typeof(StatFormat), typeof(StatCard),
+                new PropertyMetadata(StatFormat.Number));
+
+        public StatFormat ValueFormat
+        {
+            get => (StatFormat)GetValue(ValueFormatProperty);
+            set => SetValue(ValueFormatProperty, value);
         }
 
         // Title
@@ -51,7 +88,10 @@ namespace TempFileCleaner.Controls
             double newVal = (double)e.NewValue;
 
             // Change precision formatting here if needed
-            control.ValueTextBlock.Text = newVal.ToString("N0");
+            //control.ValueTextBlock.Text = newVal.ToString("N0");
+            if (control._valueTextBlock == null)
+                return;
+            control._valueTextBlock.Text = control.FormatValue(newVal);
         }
 
         // Value (no animation)
@@ -77,8 +117,10 @@ namespace TempFileCleaner.Controls
             }
             else
             {
+                if (control._valueTextBlock == null)
+                    return;
                 // If non-numeric just set text directly (because we're using DoubleAnimation)
-                control.ValueTextBlock.Text = $"{e.NewValue}";
+                control._valueTextBlock.Text = $"{e.NewValue}";
             }
         }
 
@@ -145,6 +187,44 @@ namespace TempFileCleaner.Controls
 
             // UserControl inherits from Animatable → BeginAnimation is valid here
             BeginAnimation(AnimatedValueProperty, animation);
+        }
+
+        string FormatValue(double value)
+        {
+            switch (ValueFormat)
+            {
+                case StatFormat.Currency:
+                    return value.ToString("C2"); // $12,345.00
+
+                case StatFormat.Percent:
+                    return value.ToString("P1"); // 12,345.0%
+
+                case StatFormat.Custom:
+                    return value.ToString(CustomFormatString);
+
+                default:
+                    return value.ToString("N0"); // 12,345
+            }
+        }
+
+        public static readonly DependencyProperty GlowColorProperty =
+            DependencyProperty.Register(nameof(GlowColor), typeof(Color), typeof(StatCard),
+            new PropertyMetadata(Color.FromRgb(0, 200, 255))); // default blue
+
+        public Color GlowColor
+        {
+            get => (Color)GetValue(GlowColorProperty);
+            set => SetValue(GlowColorProperty, value);
+        }
+
+        public static readonly DependencyProperty GlowRadiusProperty =
+            DependencyProperty.Register(nameof(GlowRadius), typeof(double), typeof(StatCard),
+                new PropertyMetadata(10.0)); // default glow size
+
+        public double GlowRadius
+        {
+            get => (double)GetValue(GlowRadiusProperty);
+            set => SetValue(GlowRadiusProperty, value);
         }
 
     }
