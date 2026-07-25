@@ -184,9 +184,9 @@ namespace TempFileCleaner
             _totalFail = 0;
             _totalSuccess = 0;
             _totalExclude = 0;
-            tbFileCleaned.Dispatcher.Invoke(new Action(() => { tbFileCleaned.Text = $"Files Cleaned: {_totalSuccess}"; }));
-            tbFileFailed.Dispatcher.Invoke(new Action(() => { tbFileFailed.Text = $"Files Failed: {_totalFail}"; }));
-            tbFileExcluded.Dispatcher.Invoke(new Action(() => { tbFileExcluded.Text = $"Files Excluded: {_totalExclude}"; }));
+            scFilesCleaned.Dispatcher.Invoke(new Action(() => { scFilesCleaned.Value = $"{_totalSuccess}"; }));
+            scFilesFailed.Dispatcher.Invoke(new Action(() => { scFilesFailed.Value = $"{_totalFail}"; }));
+            scFilesExcluded.Dispatcher.Invoke(new Action(() => { scFilesExcluded.Value = $"{_totalExclude}"; }));
 
             _cts = new CancellationTokenSourceEnhanced(TimeSpan.FromMinutes(5)); // reset our token
             lstFiles.Items.Clear();
@@ -207,9 +207,9 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
-                tbFileCleaned.Dispatcher.BeginInvoke(new Action(() =>
+                scFilesCleaned.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    tbFileCleaned.Text = $"Files Cleaned: {_totalSuccess}";
+                    scFilesCleaned.Value = _totalSuccess.ToString();
                 }));
             });
             // Couldn't Remove
@@ -221,9 +221,9 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
-                tbFileFailed.Dispatcher.BeginInvoke(new Action(() =>
+                scFilesFailed.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    tbFileFailed.Text = $"Files Failed: {_totalFail}";
+                    scFilesFailed.Value = _totalFail.ToString();
                 }));
             });
             // Excluded Files
@@ -235,9 +235,9 @@ namespace TempFileCleaner
                 if (totalCount > pbCleaning.Maximum)
                     pbCleaning.Maximum = totalCount + (_pbUpperMaximum / 8.0);
                 pbCleaning.Value = totalCount;
-                tbFileExcluded.Dispatcher.BeginInvoke(new Action(() =>
+                scFilesExcluded.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    tbFileExcluded.Text = $"Files Excluded: {_totalExclude}";
+                    scFilesExcluded.Value = _totalExclude.ToString();
                 }));
             });
             // Delegate for SFC command

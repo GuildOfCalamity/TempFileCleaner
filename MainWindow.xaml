@@ -2,6 +2,7 @@
     x:Class="TempFileCleaner.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="clr-namespace:TempFileCleaner.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TempFileCleaner"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -342,7 +343,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="12*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.Background>
             <ImageBrush
@@ -482,38 +483,32 @@
         </ListBox>
         <Border
             Grid.Row="4"
+            Height="90"
             Margin="5,0,5,5"
-            VerticalAlignment="Bottom"
-            Background="#242424"
-            BorderBrush="DodgerBlue"
-            BorderThickness="1"
-            CornerRadius="4">
+            VerticalAlignment="Bottom">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Name="tbFileCleaned"
-                    Margin="8,4"
-                    FontSize="14"
-                    Foreground="White"
-                    Text="Files Cleaned" />
-                <TextBlock
-                    x:Name="tbFileExcluded"
+                <ctrl:StatCard
+                    x:Name="scFilesCleaned"
+                    Title="Files Cleaned"
+                    Grid.Column="0"
+                    Value="0" />
+                <ctrl:StatCard
+                    x:Name="scFilesExcluded"
+                    Title="Files Excluded"
                     Grid.Column="1"
-                    Margin="8,4"
-                    FontSize="14"
                     Foreground="White"
-                    Text="Files Excluded" />
-                <TextBlock
-                    x:Name="tbFileFailed"
+                    Value="0" />
+                <ctrl:StatCard
+                    x:Name="scFilesFailed"
+                    Title="Files Failed"
                     Grid.Column="2"
-                    Margin="8,4"
-                    FontSize="14"
-                    Foreground="White"
-                    Text="Files Failed" />
+                    Margin="0"
+                    Value="0" />
             </Grid>
         </Border>
     </Grid>

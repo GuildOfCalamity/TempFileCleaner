@@ -63,6 +63,9 @@
     </ApplicationDefinition>
     <Compile Include="CancellationTokenSourceEnhanced.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="Controls\StatCard.xaml.cs">
+      <DependentUpon>StatCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\FileInfoTooltipConverter.cs" />
     <Compile Include="DarkTitleBar.cs" />
     <Compile Include="Extensions.cs" />
@@ -76,6 +79,10 @@
     <Compile Include="WpfMessageBox.xaml.cs">
       <DependentUpon>WpfMessageBox.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\StatCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
