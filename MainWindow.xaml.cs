@@ -25,7 +25,7 @@ namespace TempFileCleaner
         int _totalExclude = 0;
         long _totalBytes = 0;
         double sfcCount = 0;
-        double _pbUpperMaximum = 18000; // user could have many files, or only a few, so estimate a ceiling to start
+        double _pbUpperMaximum = 15000; // user could have many files, or only a few, so estimate a ceiling to start
         double _cfgWinHeight = 750;
         double _cfgWinWidth = 1100;
         int _cfgMonthAge = -12;
@@ -270,6 +270,7 @@ namespace TempFileCleaner
             {
                 await Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    pbCleaning.Value = pbCleaning.Maximum;
                     if (lstFiles.Items.Count > 0)
                     {
                         var lastItem = lstFiles.Items[lstFiles.Items.Count - 1];
