@@ -105,7 +105,7 @@ namespace TempFileCleaner
         void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             this.Title = $"{App.GetCurrentAssemblyName()} v{App.GetCurrentAssemblyVersion()}";
-            spProgress.Visibility = Visibility.Collapsed;
+            spProgress.Visibility = Visibility.Hidden;
             btnCancel.Visibility = Visibility.Hidden;
             cbReport.IsChecked = _cfgReportOnly = ConfigManager.Get("ReportOnly", defaultValue: true);
             _cfgMonthAge = ConfigManager.Get("MonthAge", defaultValue: -12);
@@ -333,7 +333,7 @@ namespace TempFileCleaner
                 cbReport.IsEnabled = tbMonths.IsEnabled = true;
                 btnStart.Visibility = Visibility.Visible;
                 btnCancel.Visibility = Visibility.Hidden;
-                pbCleaning.Visibility = spProgress.Visibility = Visibility.Collapsed;
+                pbCleaning.Visibility = spProgress.Visibility = Visibility.Hidden;
             }
         }
 

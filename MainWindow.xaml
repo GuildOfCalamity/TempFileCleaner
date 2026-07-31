@@ -370,6 +370,16 @@
             DotBrush="{StaticResource ProgressBrushLinear}"
             DotCount="16"
             DotSize="20"
+            FountainBaseLife="24"
+            FountainFadeRate="0.1"
+            FountainGravity="4.5"
+            GearCoreBrush="{StaticResource GearBrushRadial}"
+            GearInnerSpacing="4"
+            GearOutlineThickness="1"
+            GearTeethA="10"
+            GearTeethB="14"
+            GearTimeASeconds="2"
+            GearTimeBSeconds="2"
             ProgressHighlightWidth="3"
             ProgressIndeterminate="True"
             ProgressSpacing="18"
@@ -378,7 +388,7 @@
             RadarBeamWidth="8"
             RadarBlipBrush="{StaticResource SnowBrushRadial}"
             RenderMode="AnimatePositions"
-            RenderShape="Wave"
+            RenderShape="Gears"
             RingsAngleSpeed="0.2"
             RingsCount="10"
             Visibility="Visible"
@@ -386,43 +396,51 @@
             WaveDuration="1.1"
             WindAmplitude="1"
             WindFrequency="0.5" />
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="60" />
-                <ColumnDefinition Width="110" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="btnStart"
-                Grid.Column="0"
-                Margin="2,2"
-                Click="btnCleanupClick"
-                Content="Start Cleanup" />
-            <Button
-                x:Name="btnCancel"
-                Grid.Column="0"
-                Margin="2,2"
-                Click="btnCancelClick"
-                Content="Cancel Cleanup" />
-            <TextBox
-                x:Name="tbMonths"
-                Grid.Column="1"
-                Margin="2,2"
-                Tag="Months"
-                Text="-12"
-                ToolTip="File age (in months)" />
-            <Border Grid.Column="2" Background="#242424">
-                <CheckBox
-                    x:Name="cbReport"
+        <Border
+            Grid.Row="0"
+            Margin="8,4"
+            Padding="4"
+            BorderBrush="#2A7FFF"
+            BorderThickness="2"
+            CornerRadius="6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="110" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="btnStart"
+                    Grid.Column="0"
                     Margin="2,2"
-                    HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center"
-                    Content="Report Only"
-                    FontSize="12"
-                    Foreground="White"
-                    IsChecked="True" />
-            </Border>
-        </Grid>
+                    Click="btnCleanupClick"
+                    Content="Start Cleanup" />
+                <Button
+                    x:Name="btnCancel"
+                    Grid.Column="0"
+                    Margin="2,2"
+                    Click="btnCancelClick"
+                    Content="Cancel Cleanup" />
+                <TextBox
+                    x:Name="tbMonths"
+                    Grid.Column="1"
+                    Margin="2,2"
+                    Tag="Months"
+                    Text="-12"
+                    ToolTip="File age (in months)" />
+                <Border Grid.Column="2" Background="#242424">
+                    <CheckBox
+                        x:Name="cbReport"
+                        Margin="2,2"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Content="Report Only"
+                        FontSize="12"
+                        Foreground="White"
+                        IsChecked="True" />
+                </Border>
+            </Grid>
+        </Border>
         <ProgressBar
             Name="pbCleaning"
             Grid.Row="1"

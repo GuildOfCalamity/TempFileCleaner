@@ -39,5 +39,13 @@
                 <GradientStop Offset="1.0" Color="DodgerBlue" />
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
+        <RadialGradientBrush x:Key="GearBrushRadial" GradientOrigin="0.5,0.5">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Offset="0.0" Color="White" />
+                <GradientStop Offset="0.3" Color="#125696" />
+                <GradientStop Offset="0.6" Color="DodgerBlue" />
+                <GradientStop Offset="1.0" Color="#0C3D6B" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
     </Application.Resources>
 </Application>
