@@ -79,6 +79,15 @@
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="StartupAnalyzer.cs" />
+    <Compile Include="Support\AnimationSlideInDirection.cs" />
+    <Compile Include="Support\BaseAttachedProperty.cs" />
+    <Compile Include="Support\FrameworkElementAnimationAttachedProperties.cs" />
+    <Compile Include="Support\FrameworkElementAnimations.cs" />
+    <Compile Include="Support\IsBusyProperty.cs" />
+    <Compile Include="Support\ScrollViewerAttachedProperties.cs" />
+    <Compile Include="Support\StoryboardHelpers.cs" />
+    <Compile Include="Support\TaskMan.cs" />
+    <Compile Include="Support\TextAttachedProperties.cs" />
     <Compile Include="WpfMessageBox.xaml.cs">
       <DependentUpon>WpfMessageBox.xaml</DependentUpon>
     </Compile>

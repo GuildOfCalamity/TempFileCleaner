@@ -118,6 +118,16 @@ namespace TempFileCleaner
             return (-a < b) && (a > b);
         }
 
+        public static uint ReverseBits(this uint value, int count)
+        {
+            uint result = 0;
+            for (int i = 0; i < count; i++)
+            {
+                result |= ((value >> i) & 1) << (count - 1 - i);
+            }
+            return result;
+        }
+
         /// <summary>
         /// Clamping function for any value of type <see cref="IComparable{T}"/>.
         /// </summary>

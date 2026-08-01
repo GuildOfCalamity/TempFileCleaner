@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using Microsoft.Win32;
+using TempFileCleaner.Controls;
 
 namespace TempFileCleaner
 {
@@ -34,6 +35,19 @@ namespace TempFileCleaner
         bool _UAC = false;
         string[] _cfgExcludeFolders = null;
         CancellationTokenSourceEnhanced _cts;
+        TaskMan taskMan = new TaskMan();
+
+        public static readonly DependencyProperty IsMainLoadedProperty = DependencyProperty.Register(
+            nameof(IsMainLoaded), 
+            typeof(bool), 
+            typeof(MainWindow), 
+            new PropertyMetadata(false));
+
+        public bool IsMainLoaded
+        {
+            get => (bool)GetValue(IsMainLoadedProperty);
+            set => SetValue(IsMainLoadedProperty, value);
+        }
 
         public event EventHandler<List<FileResult>> CleanupCompleted;
         public event EventHandler<Exception> CleanupError;
@@ -141,6 +155,14 @@ namespace TempFileCleaner
                     , false, false, fontSize: 13.0,  owner: this);
             }
 
+
+            _ = taskMan?.Run(async () =>
+            {
+                await Task.Delay(220);
+                Dispatcher.Invoke(() => { IsMainLoaded = true; });
+            });
+
+            /*
             if (Debugger.IsAttached)
             {
                 StartupAnalyzer.RunTest();
@@ -151,6 +173,7 @@ namespace TempFileCleaner
                 //var next16b =Extensions.NextHighestMultipleOf16(17);
                 //scFilesCleaned.Value = "5000"; // testing DoubleAnimation on StatCard
             }
+            */
         }
 
         void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -198,6 +221,7 @@ namespace TempFileCleaner
             _totalFail = 0;
             _totalSuccess = 0;
             _totalExclude = 0;
+            scBytesTotal.Dispatcher.Invoke(new Action(() => { scBytesTotal.Value = $"{_totalBytes.ToFileSize()}"; }));
             scFilesCleaned.Dispatcher.Invoke(new Action(() => { scFilesCleaned.Value = $"{_totalSuccess}"; }));
             scFilesFailed.Dispatcher.Invoke(new Action(() => { scFilesFailed.Value = $"{_totalFail}"; }));
             scFilesExcluded.Dispatcher.Invoke(new Action(() => { scFilesExcluded.Value = $"{_totalExclude}"; }));
@@ -284,12 +308,14 @@ namespace TempFileCleaner
             {
                 await Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    scBytesTotal.Value = $"{_totalBytes.ToFileSize()}";
                     pbCleaning.Value = pbCleaning.Maximum;
                     if (lstFiles.Items.Count > 0)
                     {
                         var lastItem = lstFiles.Items[lstFiles.Items.Count - 1];
                         lstFiles.ScrollIntoView(lastItem);
                     }
+
                 }));
 
                 if (_cfgReportOnly)
@@ -362,7 +388,7 @@ namespace TempFileCleaner
             if (months >= 0)
                 months *= -1;
 
-            return await Task.Run(async () =>
+            return await taskMan.Run(async () =>
             {
                 var failedFiles = new List<FileResult>();
                 DateTime cutoffDate = DateTime.Now.AddMonths(months);
@@ -486,7 +512,7 @@ namespace TempFileCleaner
             if (months >= 0)
                 months *= -1;
 
-            return await Task.Run(async () =>
+            return await taskMan.Run(async () =>
             {
                 List<string> failedFiles = new List<string>();
                 DateTime cutoffDate = DateTime.Now.AddMonths(months);
@@ -572,7 +598,7 @@ namespace TempFileCleaner
         #region [Helpers]
         async Task RunSystemFileChecker(CancellationToken ct, IProgress<FileResult> progress = null)
         {
-            await Task.Run(async () =>
+            await taskMan.Run(async () =>
             {
                 try
                 {
@@ -618,7 +644,7 @@ namespace TempFileCleaner
                         // NOTE: process.WaitForExitAsync(ct) isn't available in older .NET Framework versions
                         #region [Legacy Framework Process Cancel]
                         // Create a task that completes when the process exits
-                        var processExitTask = Task.Run(() => process.WaitForExit());
+                        var processExitTask = taskMan.Run(() => process.WaitForExit());
                         // Create a task that completes when the token is cancelled
                         var cancellationTask = Task.Delay(-1, ct);
                         // Wait for whichever happens first
@@ -671,7 +697,7 @@ namespace TempFileCleaner
         /// </code></summary>
         async Task RunDiskCleanup(CancellationToken ct, bool sageRun = true)
         {
-            await Task.Run(async () =>
+            await taskMan.Run(async () =>
             {
                 try
                 {
@@ -687,7 +713,7 @@ namespace TempFileCleaner
                         // NOTE: process.WaitForExitAsync(ct) isn't available in older .NET Framework versions
                         #region [Legacy framework process cancel]
                         // Create a task that completes when the process exits
-                        var processExitTask = Task.Run(() => process.WaitForExit());
+                        var processExitTask = taskMan.Run(() => process.WaitForExit());
                         // Create a task that completes when the token is cancelled
                         var cancellationTask = Task.Delay(-1, ct);
                         // Wait for whichever happens first

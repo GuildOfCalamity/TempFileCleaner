@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TempFileCleaner"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="root"
     Title="MainAppWindow"
     Width="1100"
     Height="700"
@@ -14,6 +15,12 @@
     Icon="/Logo2.png"
     WindowStartupLocation="Manual"
     mc:Ignorable="d">
+
+    <!--
+        [NOTE]
+        Disable the local:AnimateSlideInFrom___ to view controls in the designer.
+        The slide animations are only for runtime.
+    -->
 
     <Window.Resources>
         <Style TargetType="{x:Type ProgressBar}">
@@ -400,6 +407,7 @@
             Grid.Row="0"
             Margin="8,4"
             Padding="4"
+            local:AnimateSlideInFromTopProperty.Value="{Binding IsMainLoaded, ElementName=root}"
             BorderBrush="#2A7FFF"
             BorderThickness="2"
             CornerRadius="6">
@@ -503,9 +511,11 @@
             Grid.Row="4"
             Height="100"
             Margin="5,0,5,5"
-            VerticalAlignment="Bottom">
+            VerticalAlignment="Bottom"
+            local:AnimateSlideInFromBottomProperty.Value="{Binding IsMainLoaded, ElementName=root}">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -522,9 +532,20 @@
                     ValueColor="White"
                     Value="0" />
                 <ctrl:StatCard
+                    x:Name="scBytesTotal"
+                    Title="Total Bytes"
+                    Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    BorderColor="#2A7FFF"
+                    GlowColor="#10F0F0"
+                    GlowRadius="8.0"
+                    TitleColor="#2A7FFF"
+                    ValueColor="White"
+                    Value="0" />
+                <ctrl:StatCard
                     x:Name="scFilesExcluded"
                     Title="Files Excluded"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     BackgroundColor="Transparent"
                     BorderColor="#2A7FFF"
                     GlowColor="#FFD810"
@@ -535,7 +556,7 @@
                 <ctrl:StatCard
                     x:Name="scFilesFailed"
                     Title="Files Failed"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Margin="0"
                     BackgroundColor="Transparent"
                     BorderColor="#2A7FFF"
