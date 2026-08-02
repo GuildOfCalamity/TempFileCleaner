@@ -9,7 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using TempFileCleaner.Controls;
 
@@ -20,6 +24,9 @@ namespace TempFileCleaner
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool _frameCapture = false;
+        DispatcherTimer _captureTimer = null;
+
         #region [Properties]
         int _totalFail = 0;
         int _totalSuccess = 0;
@@ -83,6 +90,7 @@ namespace TempFileCleaner
             #region [Event Hooks]
             this.Loaded += OnMainWindowLoaded;
             this.Closing += OnMainWindowClosing;
+            //this.KeyUp += OnMainWindowKeyUp;
             CleanupError += OnCleanupError;
             //ObservableCollectionExample.CollectionChanged += FileLog_CollectionChanged;
             ConfigManager.OnError += (s, e) =>
@@ -118,6 +126,9 @@ namespace TempFileCleaner
 
         void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            if (_frameCapture)
+                RemovePreviousCaptures();
+
             this.Title = $"{App.GetCurrentAssemblyName()} v{App.GetCurrentAssemblyVersion()}";
             spProgress.Visibility = Visibility.Hidden;
             btnCancel.Visibility = Visibility.Hidden;
@@ -878,6 +889,89 @@ namespace TempFileCleaner
                 case "Files Failed":
                     Debug.WriteLine($"[INFO] Clicked: {e.Title} = {e.Value}");
                     break;
+            }
+        }
+        #endregion
+
+        #region [Frame Capture]
+        void OnMainWindowKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                if (_frameCapture)
+                {
+                    _captureTimer?.Stop();
+                    _frameCapture = false;
+                    int count = 0;
+                    foreach (var enc in _encoder)
+                    {
+                        count++;
+                        var filePath = $"capture_{count:D3}.png";
+                        try
+                        {
+                            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                            {
+                                enc.Save(fs);
+                            }
+                        }
+                        catch (Exception) { }
+                    }
+                    _encoder.Clear();
+                    if (_captureTimer != null)
+                        _captureTimer.Tick -= captureTimer_Tick;
+                }
+                else
+                {
+                    RemovePreviousCaptures();
+                    _frameCapture = true;
+                    if (_captureTimer == null)
+                    {
+                        _captureTimer = new System.Windows.Threading.DispatcherTimer();
+                        // Adjust this time based on the desired framerate for the GIF.
+                        _captureTimer.Interval = TimeSpan.FromMilliseconds(100);
+                        _captureTimer.Tick += captureTimer_Tick;
+                        _captureTimer.Start();
+                    }
+                    _captureTimer?.Start();
+                }
+            }
+            else if (e.Key != Key.PrintScreen)
+            {
+                _captureTimer?.Stop();
+                this.Close();
+            }
+        }
+
+        List<PngBitmapEncoder> _encoder = new List<PngBitmapEncoder>();
+        
+        void captureTimer_Tick(object? sender, EventArgs e)
+        {
+            SaveElementAsPng(hostGrid);
+        }
+
+        void SaveElementAsPng(FrameworkElement element)
+        {
+            if (element == null) { return; }
+            Size size = new Size(element.ActualWidth, element.ActualHeight);
+            element.Measure(size);
+            //element.Arrange(new Rect(size));
+            var rtb = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(element);
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+            _encoder.Add(encoder);
+        }
+
+        /// <summary>
+        /// Remove old capture images, if they exist.
+        /// </summary>
+        void RemovePreviousCaptures()
+        {
+            var pngFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "capture*.png", SearchOption.TopDirectoryOnly);
+            foreach (var fn in pngFiles) 
+            { 
+                try { File.Delete(fn); } 
+                catch { } 
             }
         }
         #endregion

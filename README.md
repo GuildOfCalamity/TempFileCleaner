@@ -10,6 +10,8 @@
 
 ![Config](./Screenshot4.png)
 
+![Running](./Example.gif)
+
 **Dependencies**
 
 | Assembly | Version |
