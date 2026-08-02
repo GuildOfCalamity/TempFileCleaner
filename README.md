@@ -2,11 +2,13 @@
 
 ## 💻 WPF - Temp File Cleaner
 
-![Example Picture 1](./Screenshot.png)
+![Example 1](./Screenshot.png)
 
-![Example Picture 2](./Screenshot2.png)
+![Example 2](./Screenshot2.png)
 
-![Example Config](./Screenshot3.png)
+![Example 3](./Screenshot3.png)
+
+![Config](./Screenshot4.png)
 
 **Dependencies**
 
