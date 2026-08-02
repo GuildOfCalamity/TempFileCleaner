@@ -221,10 +221,10 @@ namespace TempFileCleaner
             _totalFail = 0;
             _totalSuccess = 0;
             _totalExclude = 0;
-            scBytesTotal.Dispatcher.Invoke(new Action(() => { scBytesTotal.Value = $"{_totalBytes.ToFileSize()}"; }));
-            scFilesCleaned.Dispatcher.Invoke(new Action(() => { scFilesCleaned.Value = $"{_totalSuccess}"; }));
-            scFilesFailed.Dispatcher.Invoke(new Action(() => { scFilesFailed.Value = $"{_totalFail}"; }));
-            scFilesExcluded.Dispatcher.Invoke(new Action(() => { scFilesExcluded.Value = $"{_totalExclude}"; }));
+            scBytesTotal.Dispatcher.Invoke(new Action(() => { scBytesTotal.Value = _totalBytes.ToFileSize(); }));
+            scFilesCleaned.Dispatcher.Invoke(new Action(() => { scFilesCleaned.Value = _totalSuccess.ToString(); }));
+            scFilesFailed.Dispatcher.Invoke(new Action(() => { scFilesFailed.Value = _totalFail.ToString(); }));
+            scFilesExcluded.Dispatcher.Invoke(new Action(() => { scFilesExcluded.Value = _totalExclude.ToString(); }));
 
             _cts = new CancellationTokenSourceEnhanced(TimeSpan.FromMinutes(5)); // reset our token
             lstFiles.Items.Clear();
@@ -233,7 +233,7 @@ namespace TempFileCleaner
             spProgress.Visibility = btnCancel.Visibility = pbCleaning.Visibility = Visibility.Visible;
             pbCleaning.Minimum = 0;
             pbCleaning.Maximum = _pbUpperMaximum;
-            if (!int.TryParse(tbMonths.Text, out int months)) { _cfgMonthAge = -12; }
+            if (!int.TryParse(tbMonths.Text, out int months)) { _cfgMonthAge = -6; }
             _cfgReportOnly = (bool)cbReport.IsChecked;
 
             // Deleted Files
@@ -248,6 +248,7 @@ namespace TempFileCleaner
                 scFilesCleaned.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     scFilesCleaned.Value = _totalSuccess.ToString();
+                    scBytesTotal.Value = _totalBytes.ToFileSize();
                 }));
             });
             // Couldn't Remove
@@ -276,6 +277,7 @@ namespace TempFileCleaner
                 scFilesExcluded.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     scFilesExcluded.Value = _totalExclude.ToString();
+                    scBytesTotal.Value = _totalBytes.ToFileSize();
                 }));
             });
             // Delegate for SFC command
@@ -848,6 +850,35 @@ namespace TempFileCleaner
 
             return Regex.IsMatch(text, regex, RegexOptions.IgnoreCase
             );
+        }
+        #endregion
+
+        #region [StatCard Click Handler]
+        //void scFilesCleaned_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Debug.WriteLine($"Card clicked");
+        //}
+
+        void StatCard_Click(object sender, StatCardClickEventArgs e)
+        {
+            if (e == null || string.IsNullOrWhiteSpace(e.Title))
+                return;
+
+            switch (e.Title)
+            {
+                case "Files Cleaned":
+                    Debug.WriteLine($"[INFO] Clicked: {e.Title} = {e.Value}");
+                    break;
+                case "Total Bytes":
+                    Debug.WriteLine($"[INFO] Clicked: {e.Title} = {e.Value}");
+                    break;
+                case "Files Excluded":
+                    Debug.WriteLine($"[INFO] Clicked: {e.Title} = {e.Value}");
+                    break;
+                case "Files Failed":
+                    Debug.WriteLine($"[INFO] Clicked: {e.Title} = {e.Value}");
+                    break;
+            }
         }
         #endregion
     }

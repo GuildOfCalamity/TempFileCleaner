@@ -227,6 +227,45 @@ namespace TempFileCleaner.Controls
             set => SetValue(GlowRadiusProperty, value);
         }
 
+        #region [Basic Click Event (no info)]
+        //public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(
+        //    nameof(Click),
+        //    RoutingStrategy.Bubble,
+        //    typeof(RoutedEventHandler),
+        //    typeof(StatCard));
+        //
+        //public event RoutedEventHandler Click
+        //{
+        //    add => AddHandler(ClickEvent, value);
+        //    remove => RemoveHandler(ClickEvent, value);
+        //}
+        //protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonUp(e);
+        //    RaiseEvent(new RoutedEventArgs(ClickEvent));
+        //}
+        #endregion
+
+        #region [Enhanced Click Event (with info)]
+        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(
+            nameof(Click),
+            RoutingStrategy.Bubble,
+            typeof(EventHandler<StatCardClickEventArgs>),
+            typeof(StatCard));
+
+        public event EventHandler<StatCardClickEventArgs> Click
+        {
+            add => AddHandler(ClickEvent, value);
+            remove => RemoveHandler(ClickEvent, value);
+        }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            var args = new StatCardClickEventArgs(ClickEvent, this, Title, Value);
+            RaiseEvent(args);
+        }
+        #endregion
     }
 
     public class DoubleAnimationHelper : DependencyObject
@@ -248,6 +287,19 @@ namespace TempFileCleaner.Controls
         {
             var helper = (DoubleAnimationHelper)d;
             helper.ValueChanged?.Invoke(helper, (double)e.NewValue);
+        }
+    }
+
+    public class StatCardClickEventArgs : RoutedEventArgs
+    {
+        public string Title { get; }
+        public string Value { get; }
+
+        public StatCardClickEventArgs(RoutedEvent routedEvent, object source, string title, string value)
+            : base(routedEvent, source)
+        {
+            Title = title;
+            Value = value;
         }
     }
 
